@@ -1,38 +1,84 @@
-.App {
-  text-align: center;
+@import url('https://fonts.googleapis.com/css2?family=Major+Mono+Display&family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Ubuntu+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
+/* PAGE SETTINGS ================================================================= */
+html {
+    scroll-behavior: smooth;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+:root {
+    --mono-font: "Ubuntu Mono", monospace;
+    --serif-font: "Montserrat", sans-serif;
+    --display-font: "Major Mono Display", sans-serif;
+
+    --color-one: #;
+    --color-two: #;
+    --color-three: #;
+    --color-four: #;
+    --color-five: #;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+/* DEFAULT STYLING  =================================================================*/
+*, *::before, *::after {
+  font-family: var(--serif-font);
+  font-weight: inherit;
+  font-family: inherit;
+  font-style: inherit;
+  font-size: 100%;
+  vertical-align: baseline;
+
+  border: 0 none;
+  outline: 0;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  max-width: 2560px;
+
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+  
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+
+  /* outline: 3px solid cyan */
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+ol, ul {
+	list-style: none;
 }
 
-.App-link {
-  color: #61dafb;
+a {
+    font-size: inherit;
+    font-family: var(--main-font);
+    color: inherit;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+h1 {font-size: 4.0rem; font-family: var(--display-font)}
+h2 {font-size: 3.0rem; font-family: var(--mono-font);}
+h3 {font-size: 2.0rem;}
+h4 {font-size: 1.5rem;}
+h5 {font-size: 1.25rem;}
+h6 {font-size: 0.75rem;}
+p {font-size: 1.0rem;}
+
+img { 
+    max-width: 100%;
+    height: auto;
+    overflow: hidden;
+    display: block;
+    object-fit: contain;
 }
+
+body {
+    line-height: 1.6em;
+    font-family: var(--serif-font);
+    overflow-x: hidden;
+	
+    display: flex;
+    min-height: 100vh;
+    align-items: center;
+    justify-content: center;
+}   
+
+/* MAIN ================================================================= */
