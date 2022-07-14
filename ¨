@@ -40,7 +40,7 @@ function onChangeTracePath(event: any) {
   const TIME_PER_STEP = (SQUARE_WIDTH/N) / VELOCITY;
   
   
-  const CANVAS_WIDTH = 750;
+  const CANVAS_WIDTH = 1000;
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const RESCALE_FACTOR = CANVAS_WIDTH / SQUARE_WIDTH; //Scaling up to canvas coordinates
   const FPS = 60;
@@ -239,7 +239,7 @@ function drawFigure() {
     
   return (
       <HStack h="100vh" w="full" align="center"  spacing={ 8 } justify="center" bgColor="">
-      <Stack spacing={ 4 }>
+      <Stack>
         <Stack spacing={ 4 } border="1px solid black" p={ 4 } borderRadius="10px">
           <Heading>Setup Computation: </Heading>
           <Text>Choose To render N steps: </Text>
@@ -260,10 +260,9 @@ function drawFigure() {
           <Heading size="md">Distance dog ran: { lengthOfPursuit.toFixed(5) }m</Heading>
           <Heading size="md">Time it took: { timeOfPursuit.toFixed(5) }ms</Heading>
         </Stack>
-        <Stack border="1px solid black" p={ 4 } borderRadius="10px" spacing={ 4 } >
-          <Heading size="md">Links</Heading>
-          <Link href="https://mathworld.wolfram.com/PursuitCurve.html">Read more</Link>
-          <Link href="https://github.com/SebCodesTheWeb/pursuit-curve-calculator">Github</Link>
+        <Stack border="1px solid black" p={ 4 } borderRadius="10px" spacing={ 4 }>
+          <Link href="">Read more</Link>
+          <Link href="">Github</Link>
         </Stack>
       </Stack>
       <Stack>
