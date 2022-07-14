@@ -1,5 +1,4 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import React, {useRef, useState} from 'react'
+import {useRef, useState} from 'react'
 import ImprovedSetInterval from "./AccurateTimer"
 
 import {
@@ -35,11 +34,8 @@ function onChangeTracePath(event: any) {
     setTracePath(event.target.checked);
   }
 
-
   const STEP_SIZE = SQUARE_WIDTH / N;
   const TIME_PER_STEP = (SQUARE_WIDTH/N) / VELOCITY;
-  
-  
   const CANVAS_WIDTH = 750;
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const RESCALE_FACTOR = CANVAS_WIDTH / SQUARE_WIDTH; //Scaling up to canvas coordinates
@@ -49,7 +45,6 @@ function onChangeTracePath(event: any) {
   let x2: number = 0;
   let x3: number = SQUARE_WIDTH;
   let x4: number = SQUARE_WIDTH;
-    
   let y1: number = SQUARE_WIDTH;
   let y4: number = SQUARE_WIDTH;
   let y2:number = 0;
@@ -61,9 +56,7 @@ function onChangeTracePath(event: any) {
   let p3 = [x3, y3];
   let p4 = [x4, y4];
 
-
   let [dx1, dx2, dx3, dx4, dy1, dy2, dy3,, dy4,]:  number[] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-
   let dp1: number[] = [dx1, dy1];
   let dp2: number[] = [dx2, dy2];
   let dp3: number[] = [dx3, dy3];
@@ -98,12 +91,10 @@ function onChangeTracePath(event: any) {
     length += Math.sqrt(Math.pow(dp1[0], 2) + Math.pow(dp1[1], 2));
   }
 
-
   const dogAnimation = new ImprovedSetInterval(drawFigure, 1000/FPS);
-
-  //Complete path until point is standing still
   function startPursuit() {
-    time=0;
+    time = 0;
+
     //Clearing old animation
     const canvas = canvasRef.current;
     const ctx = canvas?.getContext('2d')  
@@ -114,18 +105,15 @@ function onChangeTracePath(event: any) {
     for(let i = 0; i < 100*N; i ++) {
       updatePosition();
       if(dp1[0] === 0 && dp1[1] === 0) {
-        console.log("Traveled" + length + "m")
         setLengthOfPursuit(length);
         break;
       }
   }
-
   }
 
   //Draws arrow from point 1 to point 2
   function canvasArrow(ctx: CanvasRenderingContext2D, p1: number[], p2: number[]) { 
     const HEAD_LENGTH = 10; // length of head in pixels
-
     const dx = p2[0] - p1[0];
     const dy = p2[1] - p1[1];
     const angle = Math.atan2(dy, dx);
@@ -169,15 +157,12 @@ function onChangeTracePath(event: any) {
     return [dx, dy];
   }
 
-
 let time = 0;
 function drawFigure() {
   time += 1000/FPS; 
   let currentIndex = Math.floor((time/1000)/TIME_PER_STEP); //Getting what the position should be after time milliseconds
   if(currentIndex > trackPositions.length) {
     dogAnimation.stop();
-    
-    console.log("The dogs reached the center after", time + "ms")
     setTimeOfPursuit(time);
   }
 
@@ -198,7 +183,6 @@ function drawFigure() {
     }
   }
 }
-
 
   function drawGrid(ctx: CanvasRenderingContext2D, canvas: HTMLCanvasElement) {
     ctx.beginPath();
@@ -275,6 +259,3 @@ function drawFigure() {
 }
 
 export default Coordinates
-
-
-
