@@ -46,7 +46,7 @@ function Coordinates() {
   let trackPositions: any = [];
   let length: number = 0;
   
-  const updatePosition = () => {
+  function updatePosition () {
     trackPositions.push([[...p1], [...p2], [...p3], [...p4]]);
 
     //Getting in which direction to move
@@ -71,13 +71,21 @@ function Coordinates() {
     length += Math.sqrt(Math.pow(dp1[0], 2) + Math.pow(dp1[1], 2));
   }
 
+
+  const dogAnimation = new ImprovedSetInterval(drawFigure, 1000/FPS);
   //Complete path until point is standing still
-  for(let i = 0; i < 100*N; i ++) {
-    updatePosition();
-    if(dp1[0] === 0 && dp1[1] === 0) {
-      console.log("Traveled" + length + "m")
-      break;
-    }
+  function startPursuit() {
+    console.log("start")
+    time=0;
+    dogAnimation.start();
+    for(let i = 0; i < 100*N; i ++) {
+      updatePosition();
+      if(dp1[0] === 0 && dp1[1] === 0) {
+        console.log("Traveled" + length + "m")
+        break;
+      }
+  }
+
   }
 
   //Draws arrow from point 1 to point 2
@@ -128,34 +136,33 @@ function Coordinates() {
   }
 
 
-  let time = 0;
-  function drawFigure() {
-    time += 1000/FPS; 
-    let currentIndex = Math.floor((time/1000)/TIME_PER_STEP); //Getting what the position should be after time milliseconds
-    if(currentIndex > trackPositions.length) {
-      dogAnimation.stop();
-      console.log("The dogs reached the center after", time + "ms")
+let time = 0;
+function drawFigure() {
+  console.log("drawFigure")
+  time += 1000/FPS; 
+  let currentIndex = Math.floor((time/1000)/TIME_PER_STEP); //Getting what the position should be after time milliseconds
+  if(currentIndex > trackPositions.length) {
+    dogAnimation.stop();
+    console.log("The dogs reached the center after", time + "ms")
+  }
+
+  const canvas = canvasRef.current;
+  const ctx = canvas?.getContext('2d')  
+
+  if(canvas !== null && ctx !== null && ctx !== undefined) {
+    if(!tracePath) {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
     }
 
-    const canvas = canvasRef.current;
-    const ctx = canvas?.getContext('2d')  
-
-    if(canvas !== null && ctx !== null && ctx !== undefined) {
-      if(!tracePath) {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-      }
-
-      drawGrid(ctx, canvas);
-      if(typeof trackPositions[currentIndex] !== 'undefined'){
-        drawDogBall(ctx, canvas, trackPositions[currentIndex][0], trackPositions[currentIndex][1]); //Dog 1
-        drawDogBall(ctx, canvas, trackPositions[currentIndex][1], trackPositions[currentIndex][2]); //Dog 2
-        drawDogBall(ctx, canvas, trackPositions[currentIndex][2], trackPositions[currentIndex][3]); //Dog 3
-        drawDogBall(ctx, canvas, trackPositions[currentIndex][3], trackPositions[currentIndex][0]); //Dog 4
-      }
+    drawGrid(ctx, canvas);
+    if(typeof trackPositions[currentIndex] !== 'undefined'){
+      drawDogBall(ctx, canvas, trackPositions[currentIndex][0], trackPositions[currentIndex][1]); //Dog 1
+      drawDogBall(ctx, canvas, trackPositions[currentIndex][1], trackPositions[currentIndex][2]); //Dog 2
+      drawDogBall(ctx, canvas, trackPositions[currentIndex][2], trackPositions[currentIndex][3]); //Dog 3
+      drawDogBall(ctx, canvas, trackPositions[currentIndex][3], trackPositions[currentIndex][0]); //Dog 4
     }
   }
-  const dogAnimation = new ImprovedSetInterval(drawFigure, 1000/FPS);
-  dogAnimation.start();
+}
 
 
   function drawGrid(ctx: CanvasRenderingContext2D, canvas: HTMLCanvasElement) {
@@ -208,6 +215,7 @@ function Coordinates() {
       <label htmlFor="showPath">Show Path:  </label>
       <input type="checkBox" defaultValue="1000"/>
       <canvas ref={canvasRef} width={CANVAS_WIDTH} height={CANVAS_WIDTH}/>
+      <button onClick={ startPursuit } type="button">Start</button>
       </>
   )
 }
@@ -216,17 +224,3 @@ export default Coordinates
 
 
 
-//CODE I'M NOT CURRENTLY USING BUT MIGHT COME BACK TO LATER ON =================================================================
-  // const canvas = canvasRef.current;
-  // const ctx = canvas?.getContext('2d');  
-  // contextRef.current = ctx as null;
-
-  // console.log("Test 1 - Straight Down", [0, 9.8], [0.2, 0], getVelocity([0, 9.8], [0.2, 0]));
-  // console.log("Test 2 - Straight Right", [0, 0], [10, 0], getVelocity([0, 0], [10, 0]));
-  // console.log("Test 3 - Straight Left", [10, 0], [0, 0], getVelocity([10, 0], [0, 0]));
-  // console.log("Test 4 - Straight Up", [0, 0], [0, 10], getVelocity([0, 0], [0, 10]));
-
-  // console.log("Test 5 - Quadrant 1", [0, 0], [1, 1], getVelocity([0, 0], [1, 1]));
-  // console.log("Test 6 - Quadrant 2", [0, 0], [-1, 1], getVelocity([0, 0], [-1, 1]));
-  // console.log("Test 7 - Quadrant 3", [10, 10], [0, 8], getVelocity([10, 10], [0, 8]));
-  // console.log("Test 8 - Quadrant 4", [2, 2], [5, 1], getVelocity([2, 2], [5, 1]));
