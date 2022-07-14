@@ -226,7 +226,7 @@ function drawFigure() {
       <Stack spacing={ 4 }>
         <Stack spacing={ 4 } border="1px solid black" p={ 4 } borderRadius="10px">
           <Heading>Setup Computation: </Heading>
-          <Text>Choose To render N steps: </Text>
+          <Text>Choose To render N steps: (atleast 1000) </Text>
           <Input defaultValue="1000" onChange={ onChangeN }/>
           <Text>Choose Velocity (m/s): (try numbers below 1)</Text>
           <Input defaultValue="1" onChange={ onChangeVelocity}/>
