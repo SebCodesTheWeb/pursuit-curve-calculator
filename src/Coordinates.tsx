@@ -10,6 +10,7 @@ import {
     HStack,
     Heading,
     Link,
+    Box,
   } from '@chakra-ui/react'
 
 function Coordinates() {
@@ -222,39 +223,48 @@ function drawFigure() {
   }
     
   return (
-      <HStack h="100vh" w="full" align="center"  spacing={ 8 } justify="center" bgColor="">
-      <Stack spacing={ 4 }>
-        <Stack spacing={ 4 } border="1px solid black" p={ 4 } borderRadius="10px">
-          <Heading>Setup Computation: </Heading>
-          <Text>Choose To render N steps: (atleast 1000) </Text>
-          <Input defaultValue="1000" onChange={ onChangeN }/>
-          <Text>Choose Velocity (m/s): (try numbers below 1)</Text>
-          <Input defaultValue="1" onChange={ onChangeVelocity}/>
-          <HStack>
-            <Text>Show Arrow: </Text>
-            <Checkbox defaultValue="false" onChange={ onChangeArrows }/>
-          </HStack>
-          <HStack>
-            <Text>Show Path:  </Text>
-            <Checkbox defaultValue="false" onChange={ onChangeTracePath }/>
-          </HStack>
-          <Button onClick={ startPursuit }>Start</Button>
+      <Stack 
+        h={{ base: 'full', lg: '100vh' }} 
+        w="full" 
+        align="center" 
+        direction={{ base: 'column', lg: 'row' }} 
+        spacing={ 8 } 
+        p={ 8 }
+        justify="center" 
+        bgColor=""
+      >
+        <Stack spacing={ 4 }>
+          <Stack spacing={ 4 } border="1px solid black" p={ 4 } borderRadius="10px">
+            <Heading>Setup Computation: </Heading>
+            <Text>Choose To render N steps: (atleast 1000) </Text>
+            <Input defaultValue="1000" onChange={ onChangeN }/>
+            <Text>Choose Velocity (m/s): (try numbers below 1)</Text>
+            <Input defaultValue="1" onChange={ onChangeVelocity}/>
+            <HStack>
+              <Text>Show Arrow: </Text>
+              <Checkbox defaultValue="false" onChange={ onChangeArrows }/>
+            </HStack>
+            <HStack>
+              <Text>Show Path:  </Text>
+              <Checkbox defaultValue="false" onChange={ onChangeTracePath }/>
+            </HStack>
+            <Button onClick={ startPursuit }>Start</Button>
+          </Stack>
+          <Stack border="1px solid black" p={ 4 } spacing={ 4 } borderRadius="10px">
+            <Heading size="md">Distance dog ran: { lengthOfPursuit.toFixed(5) }m</Heading>
+            <Heading size="md">Time it took: { timeOfPursuit.toFixed(5) }ms</Heading>
+          </Stack>
+          <Stack border="1px solid black" p={ 4 } borderRadius="10px" spacing={ 4 } >
+            <Heading size="md">Links</Heading>
+            <Link href="https://mathworld.wolfram.com/PursuitCurve.html">Read more</Link>
+            <Link href="https://github.com/SebCodesTheWeb/pursuit-curve-calculator">Github</Link>
+          </Stack>
         </Stack>
-        <Stack border="1px solid black" p={ 4 } spacing={ 4 } borderRadius="10px">
-          <Heading size="md">Distance dog ran: { lengthOfPursuit.toFixed(5) }m</Heading>
-          <Heading size="md">Time it took: { timeOfPursuit.toFixed(5) }ms</Heading>
-        </Stack>
-        <Stack border="1px solid black" p={ 4 } borderRadius="10px" spacing={ 4 } >
-          <Heading size="md">Links</Heading>
-          <Link href="https://mathworld.wolfram.com/PursuitCurve.html">Read more</Link>
-          <Link href="https://github.com/SebCodesTheWeb/pursuit-curve-calculator">Github</Link>
+        <Stack>
+          <canvas ref={canvasRef} style={{border: '1px solid black'}} width="750px" height="750px"/>
+          <Text>The side length of the square is 1 meter</Text>
         </Stack>
       </Stack>
-      <Stack>
-        <canvas ref={canvasRef} width={CANVAS_WIDTH} height={CANVAS_WIDTH} style={{border: '1px solid black'}}/>
-        <Text>The side length of the square is 1 meter</Text>
-      </Stack>
-      </HStack>
   )
 }
 
