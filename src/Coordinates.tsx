@@ -1,4 +1,4 @@
-import {useRef, useState} from 'react'
+import { useRef, useState, useEffect } from 'react'
 import ImprovedSetInterval from "./AccurateTimer"
 
 import {
@@ -10,7 +10,6 @@ import {
     HStack,
     Heading,
     Link,
-    Box,
   } from '@chakra-ui/react'
 
 function Coordinates() {
@@ -21,6 +20,7 @@ function Coordinates() {
   const [tracePath, setTracePath] = useState(false);
   const [timeOfPursuit, setTimeOfPursuit] = useState(0);
   const [lengthOfPursuit, setLengthOfPursuit] = useState(0);
+  const [CANVAS_WIDTH, setCANVAS_WIDTH] = useState(500);
 
 function onChangeN(event: any) {
     setN(event.target.value);
@@ -34,10 +34,21 @@ function onChangeArrows(event: any) {
 function onChangeTracePath(event: any) {
     setTracePath(event.target.checked);
   }
+function onViewportResize() {
+    let width = 750;
+    if(window.innerWidth < 1300) width=500
+    if(window.innerWidth < 992) width=400
+    if(window.innerWidth < 450) width=300
+    setCANVAS_WIDTH(width)
+  }
+
+  useEffect(() => {
+    window.addEventListener("resize", onViewportResize);
+    return () => window.removeEventListener("resize", onViewportResize);
+  });
 
   const STEP_SIZE = SQUARE_WIDTH / N;
   const TIME_PER_STEP = (SQUARE_WIDTH/N) / VELOCITY;
-  const CANVAS_WIDTH = 750;
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const RESCALE_FACTOR = CANVAS_WIDTH / SQUARE_WIDTH; //Scaling up to canvas coordinates
   const FPS = 60;
@@ -250,20 +261,25 @@ function drawFigure() {
             </HStack>
             <Button onClick={ startPursuit }>Start</Button>
           </Stack>
-          <Stack border="1px solid black" p={ 4 } spacing={ 4 } borderRadius="10px">
+          <Stack border="1px solid black" p={ 4 } spacing={ 4 } borderRadius="10px" display={{ base: "none", lg: "initial"}}>
             <Heading size="md">Distance dog ran: { lengthOfPursuit.toFixed(5) }m</Heading>
             <Heading size="md">Time it took: { timeOfPursuit.toFixed(5) }ms</Heading>
           </Stack>
-          <Stack border="1px solid black" p={ 4 } borderRadius="10px" spacing={ 4 } >
-            <Heading size="md">Links</Heading>
-            <Link href="https://mathworld.wolfram.com/PursuitCurve.html">Read more</Link>
+          <Stack border="1px solid black" p={ 4 } borderRadius="10px" spacing={ 4 } display={{ base: "none", lg: "initial"}}>
             <Link href="https://github.com/SebCodesTheWeb/pursuit-curve-calculator">Github</Link>
           </Stack>
         </Stack>
         <Stack>
-          <canvas ref={canvasRef} style={{border: '1px solid black'}} width="750px" height="750px"/>
+          <canvas ref={canvasRef} style={{border: '1px solid black'}} width={ CANVAS_WIDTH } height={ CANVAS_WIDTH } />
           <Text>The side length of the square is 1 meter</Text>
         </Stack>
+          <Stack border="1px solid black" p={ 4 } spacing={ 4 } borderRadius="10px" display={{ base: "initial", lg: "none"}} >
+            <Heading size="md">Distance dog ran: { lengthOfPursuit.toFixed(5) }m</Heading>
+            <Heading size="md">Time it took: { timeOfPursuit.toFixed(5) }ms</Heading>
+          </Stack>
+          <Stack border="1px solid black" p={ 4 } borderRadius="10px" spacing={ 4 } display={{ base: "initial", lg: "none"}} >
+            <Link href="https://github.com/SebCodesTheWeb/pursuit-curve-calculator">Github</Link>
+          </Stack>
       </Stack>
   )
 }
